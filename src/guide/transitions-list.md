@@ -5,17 +5,17 @@
 - 单个节点
 - 同一时间渲染多个节点中的一个
 
-那么怎么同时渲染整个列表，比如使用 `v-for`？在这种场景中，使用 `<transition-group>` 组件。在我们深入例子之前，先了解关于这个组件的几个特点：
+那么我们怎么同时渲染整个元素列表，比如使用 `v-for` 时。在这种情况下，我们将使用 `<transition-group>` 组件。在我们深入研究例子之前，需要先了解关于这个组件的几个知识：
 
 
 - 不同于 `<transition>`，它会以一个真实元素渲染：默认为一个 `<span>`。你也可以通过 `tag` attribute 更换为其他元素。
-- [过渡模式](/guide/transitions-enterleave#过渡模式)不可用，因为我们不再相互切换特有的元素。
+- [过渡模式](/guide/transitions-enterleave#过渡模式)不可用，因为我们不再交替切换特有的元素。
 - 内部元素**总是需要**提供唯一的 `key` attribute 值。
-- CSS 过渡的类将会应用在内部的元素中，而不是这个组/容器本身。
+- CSS 过渡的 class 将会应用在内部的元素中，而不是这个组/容器本身。
 
 ### 列表的进入/离开过渡
 
-现在让我们由一个简单的例子深入，进入和离开的过渡使用之前一样的 CSS class 名。
+现在让我们深入到一个简单的例子，用我们之前使用过的 CSS class 来实现进入和离开的过渡。
 
 ```html
 <div id="list-demo">
@@ -76,13 +76,13 @@ Vue.createApp(Demo).mount('#list-demo')
 </p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-这个例子有个问题，当添加和移除元素的时候，周围的元素会瞬间移动到他们的新布局的位置，而不是平滑的过渡，我们下面会解决这个问题。
+这个例子有一个问题，当添加和移除元素的时候，周围的元素会瞬间移动到他们的新布局位置，而不是平滑的过渡，我们下面会解决这个问题。
 
-### 列表的排序过渡
+### 列表的移动过渡
 
-`<transition-group>` 组件还有一个特殊之处。不仅可以进入和离开动画，还可以改变定位。要使用这个新功能只需了解新增的 **`v-move` class**，它会在元素的改变定位的过程中应用。像之前的类名一样，可以通过 `name` attribute 来自定义前缀，也可以通过 `move-class` attribute 手动设置。
+`<transition-group>` 组件还有一个特殊之处。不仅可以支持进入和离开的动画，还可以支持定位改变。要使用这个新功能，你只需了解新增的 **`v-move` class** 概念，它会在元素位置变化时添加的。像之前的 class 一样，可以通过元素的 `name` attribute 来定义前缀，也可以通过元素的 `move-class` attribute 手动设置。
 
-该 class 主要用于指定过渡 timing 和 easing 曲线，如下所示：
+该 class 主要用于指定元素的过渡 timing 和 easing 曲线，如下所示：
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
@@ -127,9 +127,9 @@ Vue.createApp(Demo).mount('#flip-list-demo')
 </p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-这个看起来很神奇，内部的实现，Vue 使用了一个叫 [FLIP](https://aerotwist.com/blog/flip-your-animations/) 简单的动画队列使用 transforms 将元素从之前的位置平滑过渡新的位置。
+这看起来好像很神奇，但实际上，Vue 使用了一个叫 [FLIP](https://aerotwist.com/blog/flip-your-animations/) 的动画技术，使用 transforms 将元素从它们的旧位置平滑地过渡到新位置。
 
-我们将之前实现的例子和这个技术结合，使我们列表的一切变动都会有动画过渡。
+我们可以将这种技术与我们之前实现的例子结合起来，对列表的每一个可能的变化都进行动画处理!
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
@@ -198,14 +198,14 @@ Vue.createApp(Demo).mount('#list-complete-demo')
 </p>
 <script async src="https://static.codepen.io/assets/embed/ei.js"></script>
 
-:::tip
-需要注意的是使用 FLIP 过渡的元素不能设置为 `display: inline`。作为替代方案，可以设置为 ` display: inline-block` 或者放置于 flex 中
+::: tip
+一个需要注意的点，这些 FLIP 过渡对设置了 `display: inline` 的元素无效。作为替代方案，可以设置为 ` display: inline-block` 或者将元素放置于 flex 中
 :::
 
-FLIP 动画不仅可以实现单列过渡，多维网格也[同样可以过渡](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-list-move-transitions)：
+FLIP 动画不仅可以实现单一轴过渡，多维网格也[同样可以过渡](https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-list-move-transitions)：
 
 
-TODO：示例
+TODO：示例 (译者注: 这里为官方文档示例代码待添加)
 
 ### 列表的交错过渡
 
